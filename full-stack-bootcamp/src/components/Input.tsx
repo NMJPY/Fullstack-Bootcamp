@@ -1,3 +1,4 @@
+import { useState } from "react";
 import StarIcon from "../assets/Star Icon.png";
 import AddIcon from "../assets/Edit Icon.png";
 
@@ -27,3 +28,4 @@ const Input = () => {
 };
 
 export default Input;
+
