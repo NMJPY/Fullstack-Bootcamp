@@ -3,21 +3,7 @@ import { createPortal } from "react-dom";
 import Crescent from "../assets/Crescent.svg";
 import type { TaskCardProps } from "./TaskCard";
 
-// TaskModal accepts the same props as TaskCard plus modal-specific ones.
-// Usage:
-//   <TaskModal
-//     open={isOpen}
-//     onClose={() => setIsOpen(false)}
-//     onMarkCompleted={() => handleComplete(id)}
-//     title="Iftar Prep"
-//     description="Prepare 20 meals for the local area"
-//     date="Mar 6th 2026"
-//     activeCrescents={4}
-//     totalCrescents={5}
-//     summary={["Assemble meal kits", "Logistics setup"]}
-//     volunteersNeeded="10 volunteers required"
-//     completed={false}
-//   />
+// Pre-built component — open this file to read through it and understand the createPortal pattern.
 
 type TaskModalProps = TaskCardProps & {
   open: boolean;
@@ -51,14 +37,16 @@ const TaskModal = ({
   if (!open) return null;
 
   return createPortal(
-    // Backdrop — blur + dark overlay on the fixed container itself
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm"
       onClick={onClose}
     >
-      {/* Modal panel */}
       <div
-        className={`relative w-full max-w-md bg-(--panel-deep) ${completed ? "border border-(--gold-cream) shadow-[0_0_40px_8px_rgba(212,175,55,0.22)]" : "border border-(--gold-cream)/50 shadow-[0_0_40px_6px_rgba(212,175,55,0.15)]"} rounded-2xl overflow-hidden`}
+        className={`relative w-full max-w-md bg-(--panel-deep) ${
+          completed
+            ? "border border-(--gold-cream) shadow-[0_0_40px_8px_rgba(212,175,55,0.22)]"
+            : "border border-(--gold-cream)/50 shadow-[0_0_40px_6px_rgba(212,175,55,0.15)]"
+        } rounded-2xl overflow-hidden`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── Header bar ── */}
@@ -77,11 +65,8 @@ const TaskModal = ({
 
         {/* ── Body ── */}
         <div className="px-6 pt-5 pb-6 flex flex-col gap-4">
-          {/* Large title */}
           <div className="flex flex-col items-center gap-3">
             <h1 className="font-bold text-(--gold-primary) text-3xl font-lexend">{title}</h1>
-
-            {/* Crescents */}
             <div className="flex items-center gap-2">
               {Array.from({ length: 5 }).map((_, i) => (
                 <img
@@ -92,23 +77,16 @@ const TaskModal = ({
                 />
               ))}
             </div>
-
-            {/* Date */}
-            <p className="font-semibold text-(--gold-cream) text-sm">
-              Date: {date}
-            </p>
+            <p className="font-semibold text-(--gold-cream) text-sm">Date: {date}</p>
           </div>
 
-          {/* Divider */}
           <div className="border-t border-(--gold-cream)/15" />
 
-          {/* Description */}
           <div>
             <p className="font-bold text-(--gold-primary) text-sm mb-1">Description</p>
             <p className="text-amber-100/80 text-sm leading-relaxed">{description}</p>
           </div>
 
-          {/* Summary */}
           {summary.length > 0 && (
             <div>
               <p className="font-bold text-(--gold-primary) text-sm mb-2">Summary:</p>
@@ -123,12 +101,10 @@ const TaskModal = ({
             </div>
           )}
 
-          {/* Volunteers Needed */}
           {volunteersNeeded && (
             <div>
               <p className="font-bold text-(--gold-primary) text-sm mb-1">Volunteers Needed:</p>
               <p className="text-sm text-amber-100/80 flex items-center gap-2">
-                {/* Gold people icon */}
                 <svg className="w-5 h-5 shrink-0 text-[#D4AF37] fill-[#D4AF37]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                 </svg>
@@ -137,7 +113,6 @@ const TaskModal = ({
             </div>
           )}
 
-          {/* Completed banner (centered with gold bars) */}
           {completed && (
             <div className="w-full flex flex-col items-center gap-2 mt-2">
               <div className="flex items-center w-full justify-center gap-4">
@@ -149,7 +124,6 @@ const TaskModal = ({
             </div>
           )}
 
-          {/* ── CTA Toggle Button ── */}
           {completed ? (
             <button
               onClick={() => onToggleCompleted?.()}
